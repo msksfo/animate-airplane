@@ -13,6 +13,7 @@ var translateAirplaneY = 200 - 25;
 var airplane = '\u2708';
 
 function animate(){
+
 	requestID = requestAnimationFrame(animate); //recursively call the animate function
 
 	c.clearRect(0, 0, canvas.width, canvas.height); 
@@ -23,38 +24,30 @@ function animate(){
 
 	x += 2;
 
+	// check if x is greater than the innerWidth. If it is, rotate the plane 180 and fly it back
 	if (x > innerWidth){
 
-		cancelAnimationFrame(requestID); // stop the animation
 		c.clearRect(0, 0, canvas.width, canvas.height); 
 		
 		c.translate(translateAirplaneX, translateAirplaneY);
 		c.rotate(180 * (Math.PI / 180));
 		c.translate(-translateAirplaneX, -translateAirplaneY);
 
-
 		c.font = '64px Arial'; // draw the airplane
 		c.fillStyle = 'rgba(123, 97, 255, 0.8)';
 		c.fillText(airplane, x, y);
 		
-		animateRightToLeft();
+	} 
+
+	// on the right to left animation, once x is 2 times the innerWidth, set x to 0 (resets the entire animation cycle)
+	if (x == (innerWidth * 2)){
+		x = 0;
 	}
+
+	// if you want to see the current value of x
+	document.getElementById('note').innerHTML = 'X: ' + x + ' --innerWidth: ' + innerWidth
 	
 }
-
-function animateRightToLeft(){
-
-	requestID = requestAnimationFrame(animateRightToLeft); 
-	
-	c.clearRect(0, 0, canvas.width, canvas.height); 
-
-	c.font = '64px Arial'; 
-	c.fillStyle = 'rgba(123, 97, 255, 0.8)';
-	c.fillText(airplane, x, y);
-
-	x += 2;
-
-	}
 	
 animate();
 
